@@ -8,8 +8,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  devrev_sdk_flutter: 
-    path: ../devrev_sdk_flutter-1.0.0
+  devrev_sdk_flutter: ^2.2.0-beta.1
   cupertino_icons: ^1.0.8
   firebase_core: ^3.12.1
   firebase_app_installations: ^0.3.2+4
