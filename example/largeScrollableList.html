@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Large Scrollable List</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+    <div class="header">
+        <button id="backButton" class="back-button">&larr;</button>
+        <h1>Large Scrollable List</h1>
+    </div>
+
+    <div class="section">
+        <div id="list-container" style="overflow-y: scroll;">
+            <script>
+                const listContainer = document.getElementById('list-container');
+                for (let i = 0; i < 100; i++) {
+                    const item = document.createElement('div');
+                    item.className = 'card';
+                    if (i % 2 === 0) {
+                        item.classList.add('devrev-mask');
+                    }
+                    item.textContent = 'Item #' + i;
+                    listContainer.appendChild(item);
+                }
+            </script>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
