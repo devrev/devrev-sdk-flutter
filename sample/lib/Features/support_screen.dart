@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:devrev_sdk_flutter/devrev.dart';
 
 class SupportScreen extends StatefulWidget {
+  const SupportScreen({super.key});
+
   @override
-  _SupportScreenState createState() => _SupportScreenState();
+  SupportScreenState createState() => SupportScreenState();
 }
 
-class _SupportScreenState extends State<SupportScreen> {
-
+class SupportScreenState extends State<SupportScreen> {
   @override
   void initState() {
     super.initState();
@@ -19,13 +20,16 @@ class _SupportScreenState extends State<SupportScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     List<Map<String, dynamic>> supportMenuItems() {
-    return [
-      {"title": "Support Chat", "action": () => DevRev.createSupportConversation()},
-      {"title": "Support View", "action": () => DevRev.showSupport()},
-    ];
-  }
+      return [
+        {
+          "title": "Support Chat",
+          "action": () => DevRev.createSupportConversation(),
+        },
+        {"title": "Support View", "action": () => DevRev.showSupport()},
+      ];
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Support"),

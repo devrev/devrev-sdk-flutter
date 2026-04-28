@@ -7,7 +7,7 @@ This guide helps you transition from the legacy UserExperior SDK to the new DevR
 
 | Feature | UserExperior SDK | DevRev SDK |
 |-|-|-|
-| Installation | `user_experior: ^<version>` | `devrev_sdk_flutter: ^<version>` |
+| Installation | `user_experior: ^<VERSION>` | `devrev_sdk_flutter: ^<VERSION>` |
 | Initialization | `userExperior.startRecording(appID)` | `DevRev.configure(appID)` |
 | User identification | `userExperior.setUserIdentifier(userIdentifier)` | `DevRev.identifyAnonymousUser(userID)`<br />`DevRev.identifyUnverifiedUser(userID, organizationID)`<br />`DevRev.identifyVerifiedUser(userID, sessionToken)`<br />`DevRev.logout(deviceID)` |
 | Event tracking | `userExperior.logEvent(name)` | `DevRev.trackEvent(name, properties)` |
@@ -16,5 +16,5 @@ This guide helps you transition from the legacy UserExperior SDK to the new DevR
 | Session properties | `userExperior.setUserProperties(properties)` | `DevRev.addSessionProperties(properties)`<br />`DevRev.clearSessionProperties()` |
 | Masking sensitive data | `UEMarker(child: TextField(controller: provider.fieldController, decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),)` | `DevRevMask(child: TextField(decoration: InputDecoration(labelText: "foo-bar"),),)`<br />`DevRevUnmask(child: TextField(decoration: InputDecoration(labelText: "foo-bar"),),)` |
 | Timers | `userExperior.startTimer(timerName, properties)`<br />`userExperior.endTimer(timerName, properties)` | `DevRev.startTimer(name, properties)`<br />`DevRev.endTimer(name, properties)` |
-| PLuG support chat | Not supported. | `DevRev.showSupport()`<br /> `DevRev.createSupportConversation()` |
-| Push notifications | Not supported. | `DevRev.registerDeviceToken(deviceID, deviceToken)`<br />`DevRev.unregisterDevice(deviceID)` |
+| Support chat | Not supported. | `DevRev.showSupport()`<br /> `DevRev.createSupportConversation()` |
+| Push notifications | Not supported. | `DevRev.registerDeviceToken(deviceToken, deviceID)`<br />`DevRev.unregisterDevice(deviceID)` |

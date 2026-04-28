@@ -4,17 +4,21 @@ import '../Components/alert.dart';
 import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:flutter/services.dart';
-import '../Components/StatusListItem.dart';
+import '../Components/status_list_item.dart';
 import '../device_info_fetcher.dart';
 
 class IdentificationScreen extends StatefulWidget {
+  const IdentificationScreen({super.key});
+
   @override
-  _IdentificationScreenState createState() => _IdentificationScreenState();
+  IdentificationScreenState createState() => IdentificationScreenState();
 }
 
-class _IdentificationScreenState extends State<IdentificationScreen> {
-  final TextEditingController unverifiedUserIDController = TextEditingController();
-  final TextEditingController verifiedUserIDController = TextEditingController();
+class IdentificationScreenState extends State<IdentificationScreen> {
+  final TextEditingController unverifiedUserIDController =
+      TextEditingController();
+  final TextEditingController verifiedUserIDController =
+      TextEditingController();
   final TextEditingController sessionTokenController = TextEditingController();
   final TextEditingController updateEmailController = TextEditingController();
 
@@ -44,13 +48,15 @@ class _IdentificationScreenState extends State<IdentificationScreen> {
     updateEmailController.clear();
   }
 
-  Map<String, List<Map<String, dynamic>>> getIdentificationMenuItems(BuildContext context) {
+  Map<String, List<Map<String, dynamic>>> getIdentificationMenuItems(
+    BuildContext context,
+  ) {
     return {
       "Status": [
         {
           "type": "status",
           "title": "Is the user identified?",
-          "status": isUserIdentified
+          "status": isUserIdentified,
         },
       ],
       "Unverified User": [
@@ -58,10 +64,10 @@ class _IdentificationScreenState extends State<IdentificationScreen> {
           "type": "input",
           "title": "User ID Input",
           "widget": DevRevMask(
-              child: TextField(
+            child: TextField(
               controller: unverifiedUserIDController,
-              decoration: InputDecoration(labelText: "User ID"),
-            )
+              decoration: const InputDecoration(labelText: "User ID"),
+            ),
           ),
         },
         {
@@ -75,20 +81,20 @@ class _IdentificationScreenState extends State<IdentificationScreen> {
           "type": "input",
           "title": "User ID Input",
           "widget": DevRevMask(
-              child: TextField(
+            child: TextField(
               controller: verifiedUserIDController,
-              decoration: InputDecoration(labelText: "User ID"),
-            )
+              decoration: const InputDecoration(labelText: "User ID"),
+            ),
           ),
         },
         {
           "type": "input",
           "title": "Session Token Input",
           "widget": DevRevMask(
-              child: TextField(
+            child: TextField(
               controller: sessionTokenController,
-              decoration: InputDecoration(labelText: "Session Token"),
-            )
+              decoration: const InputDecoration(labelText: "Session Token"),
+            ),
           ),
         },
         {
@@ -102,10 +108,10 @@ class _IdentificationScreenState extends State<IdentificationScreen> {
           "type": "input",
           "title": "New Email",
           "widget": DevRevMask(
-              child: TextField(
+            child: TextField(
               controller: updateEmailController,
-              decoration: InputDecoration(labelText: "Email"),
-            )
+              decoration: const InputDecoration(labelText: "Email"),
+            ),
           ),
         },
         {
@@ -115,23 +121,27 @@ class _IdentificationScreenState extends State<IdentificationScreen> {
         },
       ],
       "Logout": [
-        {
-          "type": "action",
-          "title": "Logout",
-          "action": () => logout(context),
-        },
+        {"type": "action", "title": "Logout", "action": () => logout(context)},
       ],
     };
   }
 
   void identifyUnverifiedUser(BuildContext context) {
     String userID = unverifiedUserIDController.text;
-    DevRev.identifyUnverifiedUser(userID, null);
     if (userID.isNotEmpty) {
+      DevRev.identifyUnverifiedUser(userID, null);
       currentUserID = userID;
-      AlertDialogHelper.showAlertDialog(context, "User Identified", "User identified successfully as unverified.");
+      AlertDialogHelper.showAlertDialog(
+        context,
+        "User Identified",
+        "User identified successfully as unverified.",
+      );
     } else {
-      AlertDialogHelper.showAlertDialog(context, "Input Error", "Please enter a valid User ID.");
+      AlertDialogHelper.showAlertDialog(
+        context,
+        "Input Error",
+        "Please enter a valid User ID.",
+      );
     }
   }
 
@@ -141,41 +151,66 @@ class _IdentificationScreenState extends State<IdentificationScreen> {
     DevRev.identifyVerifiedUser(userID, sessionToken);
     if (userID.isNotEmpty && sessionToken.isNotEmpty) {
       currentUserID = userID;
-      AlertDialogHelper.showAlertDialog(context, "User Verified", "User verified successfully.");
+      AlertDialogHelper.showAlertDialog(
+        context,
+        "User Verified",
+        "User verified successfully.",
+      );
     } else {
-      AlertDialogHelper.showAlertDialog(context, "Input Error", "Please enter a valid User ID and Session Token.");
+      AlertDialogHelper.showAlertDialog(
+        context,
+        "Input Error",
+        "Please enter a valid User ID and Session Token.",
+      );
     }
   }
 
-  void updateUser(BuildContext context) {
+  Future<void> updateUser(BuildContext context) async {
     String email = updateEmailController.text;
 
     if (email.isNotEmpty && currentUserID != null) {
-      DevRev.updateUser({
+      await DevRev.updateUser({
         'userRef': currentUserID,
         'userTraits': {
           'email': email,
-          'displayName': null,
-          'fullName': null,
-          'userDescription': null,
-          'phoneNumbers': null,
-          'customFields': null
-        }
+        },
       });
-      AlertDialogHelper.showAlertDialog(context, "User Updated", "User email updated successfully.");
+      if (!context.mounted) return;
+      AlertDialogHelper.showAlertDialog(
+        context,
+        "User Updated",
+        "User email updated successfully.",
+      );
     } else if (currentUserID == null) {
-      AlertDialogHelper.showAlertDialog(context, "Error", "Please identify or verify a user first.");
+      AlertDialogHelper.showAlertDialog(
+        context,
+        "Error",
+        "Please identify or verify a user first.",
+      );
     } else {
-      AlertDialogHelper.showAlertDialog(context, "Input Error", "Please enter a valid email.");
+      AlertDialogHelper.showAlertDialog(
+        context,
+        "Input Error",
+        "Please enter a valid email.",
+      );
     }
   }
 
   Future<void> logout(BuildContext context) async {
     try {
       await _deviceInfoFetcher.logout();
-      AlertDialogHelper.showAlertDialog(context, "Logout", "The user has been logged out.");
+      if (!mounted) return;
+      AlertDialogHelper.showAlertDialog(
+        this.context,
+        "Logout",
+        "The user has been logged out.",
+      );
     } catch (error) {
-      AlertDialogHelper.showAlertDialog(context, "Error", "Failed to log out. Please try again.");
+      AlertDialogHelper.showAlertDialog(
+        this.context,
+        "Error",
+        "Failed to log out. Please try again.",
+      );
     }
   }
 
@@ -205,14 +240,15 @@ class _IdentificationScreenState extends State<IdentificationScreen> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               ListTile(
-                title: Text(sectionTitle, style: TextStyle(fontWeight: FontWeight.bold)),
+              ListTile(
+                title: Text(
+                  sectionTitle,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
               ...items.map<Widget>((item) {
                 if (item["type"] == "input") {
-                  return ListTile(
-                    title: item["widget"] as Widget,
-                  );
+                  return ListTile(title: item["widget"] as Widget);
                 } else if (item["type"] == "action") {
                   return ListTile(
                     title: Text(item["title"]),
@@ -220,11 +256,14 @@ class _IdentificationScreenState extends State<IdentificationScreen> {
                     onTap: item["action"],
                   );
                 } else if (item["type"] == "status") {
-                  return StatusListItem(title: item["title"], status: item["status"]);
+                  return StatusListItem(
+                    title: item["title"],
+                    status: item["status"],
+                  );
                 } else {
                   return Container();
                 }
-              }).toList(),
+              }),
             ],
           );
         },

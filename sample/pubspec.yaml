@@ -8,7 +8,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  devrev_sdk_flutter: ^2.2.0-beta.1
+  devrev_sdk_flutter: ^2.3.2
   cupertino_icons: ^1.0.8
   firebase_core: ^3.12.1
   firebase_app_installations: ^0.3.2+4
@@ -16,6 +16,7 @@ dependencies:
   shared_preferences: ^2.5.2
   flutter_secure_storage: ^9.2.4
   uuid: ^4.5.1
+  webview_flutter: ^4.13.0
 
 dev_dependencies:
   integration_test:
@@ -26,3 +27,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/sample.html

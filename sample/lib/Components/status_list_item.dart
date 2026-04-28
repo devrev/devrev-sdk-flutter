@@ -10,13 +10,14 @@ class StatusListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title),
-      trailing: Icon(
-        status ? Icons.check_circle : Icons.circle_outlined,
-      ),
+      trailing: Icon(status ? Icons.check_circle : Icons.circle_outlined),
     );
   }
 
-  static Widget buildStatusListItem({required String title, required bool status}) {
+  static Widget buildStatusListItem({
+    required String title,
+    required bool status,
+  }) {
     return StatusListItem(title: title, status: status);
   }
 }

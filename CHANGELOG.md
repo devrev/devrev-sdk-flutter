@@ -4,7 +4,101 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.2.0-beta.1] - 2025-08-07
+## [2.3.2] - 2026-04-28
+
+### Changed
+- [iOS] Reduced memory and CPU usage during paused screen recording.
+
+### Fixed
+- [iOS] Fixed crashes and memory leaks during screen recording.
+- [Android] Fixed VerifyError crash.
+
+## [2.3.1] - 2026-04-07
+
+### Changed
+- Broader stability (recording, sessions, masking, memory).
+- [iOS] Screen recording uses less memory and stays idle when paused.
+
+### Fixed
+- [Android] Fixed fractional masking delay while rapid screen transitions and fast scrolling.
+- [Android] Correct engagement time for sessions still uploading
+- Improved rare Android long startup time and configuration issues.
+
+## [2.3.0] - 2026-02-19
+
+### Added
+- Feature configuration for screen capture, auto-start recording, plug chat theme, and remote config (fresh vs cached/lazy fetch).
+
+### Changed
+- Improved frame capture disabled session replays experience.
+- [iOS] Session upload now enforces minimum visit duration before uploading.
+
+### Fixed
+- Fixed a few memory leaks and crashes.
+- [Android] Fixed device specific distorted session replays.
+
+## [2.2.5] - 2026-02-04
+
+### Added
+- [Android] Added Masking support for multiple Flutter method channels.
+- [iOS] Added CocoaPods support.
+
+## [2.2.4] - 2026-01-29
+
+### Changed
+- Lowered the minimum supported Dart SDK to `3.5.0` across the plugin to match current Flutter stable toolchains.
+- Improved session replays stabality and performance.
+- Reduced log noise.
+- [Android] Removed redundant dependencies for reduced SDK size and enhanced security.
+
+### Fixed
+- Fixed session data not found.
+
+## [2.2.3] - 2025-12-18
+
+### Added
+- Introduced a capture error API so apps can report runtime errors through the SDK.
+
+### Changed
+- Improved rage tap detection to avoid misclassifying double taps as rage taps.
+- [Android] Optimized session recording and network request handling to reduce overhead during active sessions.
+
+### Fixed
+- [iOS] Corrected timer response rounding to return accurate durations.
+- [Android] Fixed incorrect engagement time calculation in crash scenarios.
+- [Android] Fixed ANRs occurring during SDK initialization.
+
+## [2.2.2] - 2025-11-26
+
+### Added
+- [Android] Support for session capturing on Android 16 devices.
+- Support for tracking hybrid platforms and their versions.
+- [iOS] Added automatic restoration of sessions lost when the app is killed.
+
+### Changed
+- Improved masking behavior on `RecyclerView` scrolls.
+- Improved session upload reliability and stability.
+- Optimized network bandwidth usage.
+- [iOS] Improved crash log parsing and formatting for clearer diagnostics.
+
+### Fixed
+- Fixed an issue in the logout flow.
+
+## [2.2.1] - 2025-10-17
+
+### Added
+- Added the ability to pause and resume user interaction event tracking, offering more security on the confidential screens.
+- Added sendException method to track handled exceptions.
+  
+### Changed
+- Improved performance and modularity by decoupling the screen recording functionality from the main tracking flow.
+
+### Fixed
+- [Android] Resolved potential out of memory crashes.
+- [iOS] Corrected incorrect or missing device model names on certain iPhone versions.
+- [iOS] Fixed visual distortion issues when zooming inside web view.
+
+## [2.2.0] - 2025-09-16
 Note: This initial release is aligned with version `2.2.0` of all supported DevRev SDK platforms to maintain consistency across the ecosystem.
 
 ### Added
