@@ -1,6 +1,6 @@
-# DevRev SDK Flutter Sample
+# devrev_sdk_flutter_sample
 
-A sample app to demonstrate the usage of the DevRev SDK Flutter plugin.
+A new Flutter project.
 
 ## Getting Started
 

@@ -10,8 +10,7 @@ import 'Features/identification_screen.dart';
 import 'Features/pushnotifications_screen.dart';
 import 'Features/session_analytics_screen.dart';
 import 'Features/support_screen.dart';
-import 'Features/delayed_screen.dart';
-import 'Components/StatusListItem.dart';
+import 'Components/status_list_item.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +33,7 @@ void main() async {
       ),
     );
   }
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -45,10 +44,8 @@ class MyApp extends StatelessWidget {
     return DevRevMonitoredApp(
       title: "DevRev SDK",
       theme: ThemeData(primarySwatch: Colors.blue),
-     initialRoute: "/main",
-      routes: {
-        "/main": (context) => const HomeScreen(),
-      },
+      initialRoute: "/main",
+      routes: {"/main": (context) => const HomeScreen()},
     );
   }
 }
@@ -60,7 +57,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   bool isConfigured = false;
   bool isUserIdentified = false;
   bool isMonitoringEnabled = false;
@@ -80,13 +78,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       vsync: this,
     );
 
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.2,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
 
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -140,19 +134,24 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       "STATUS": [
         {"title": "Is the DevRev SDK configured?", "status": isConfigured},
         {"title": "Is the user identified?", "status": isUserIdentified},
-        {"title": "Is session monitoring enabled?", "status": isMonitoringEnabled},
+        {
+          "title": "Is session monitoring enabled?",
+          "status": isMonitoringEnabled,
+        },
       ],
       "FEATURES": [
-        {"title": "Identification", "route": IdentificationScreen()},
-        {"title": "Push Notification", "route": PushNotificationsScreen()},
-        {"title": "Support", "route": SupportScreen()},
-        {"title": "Session Analytics", "route": SessionAnalyticsScreen()},
-        {"title": "Delayed Screen", "route": DelayedScreen()},
+        {"title": "Identification", "route": const IdentificationScreen()},
+        {
+          "title": "Push Notification",
+          "route": const PushNotificationsScreen()
+        },
+        {"title": "Support", "route": const SupportScreen()},
+        {"title": "Session Analytics", "route": const SessionAnalyticsScreen()},
       ],
       if (Platform.isAndroid)
-      "DEBUG": [
+        "DEBUG": [
           {"title": "Trigger ANR", "action": triggerANR},
-      ],
+        ],
       if (Platform.isAndroid)
         "ANIMATION": [
           {
@@ -190,20 +189,24 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                title: Text(entry.key, style: const TextStyle(fontWeight: FontWeight.bold)),
+                title: Text(
+                  entry.key,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
               ...entry.value.map((item) {
                 if (entry.key == "STATUS") {
-                  return StatusListItem.buildStatusListItem(title: item["title"], status: item["status"]);
+                  return StatusListItem.buildStatusListItem(
+                    title: item["title"],
+                    status: item["status"],
+                  );
                 } else if (entry.key == "DEBUG") {
                   return ListTile(
                     title: Text(item["title"]),
                     onTap: () => item["action"](),
                   );
                 } else if (item["type"] == "animated_text") {
-                  return ListTile(
-                    title: item["widget"] as Widget,
-                  );
+                  return ListTile(title: item["widget"] as Widget);
                 } else {
                   return ListTile(
                     title: Text(item["title"]),
@@ -211,12 +214,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => item["route"]),
+                        MaterialPageRoute(
+                          builder: (context) => item["route"],
+                        ),
                       );
                     },
                   );
                 }
-              }).toList(),
+              }),
               const SizedBox(height: 10),
             ],
           );

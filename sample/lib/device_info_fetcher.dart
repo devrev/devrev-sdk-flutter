@@ -3,9 +3,11 @@ import 'package:devrev_sdk_flutter/devrev.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as secure;
 import 'package:uuid/uuid.dart';
+import 'dart:developer' as developer;
 
 class DeviceInfoFetcher {
-  static final secure.FlutterSecureStorage _storage = secure.FlutterSecureStorage();
+  static const secure.FlutterSecureStorage _storage =
+      secure.FlutterSecureStorage();
 
   static String? _deviceId;
 
@@ -22,10 +24,10 @@ class DeviceInfoFetcher {
         await _storage.write(key: "device_id", value: _deviceId);
       }
 
-      print("Device ID: $_deviceId");
+      developer.log("Device ID: $_deviceId");
       return _deviceId!;
     } catch (error) {
-      print("Error getting device ID: $error");
+      developer.log("Error getting device ID: $error");
       throw Exception("Failed to get device ID");
     }
   }
@@ -37,24 +39,24 @@ class DeviceInfoFetcher {
       if (Platform.isIOS) {
         NotificationSettings settings = await messaging.requestPermission();
         if (settings.authorizationStatus != AuthorizationStatus.authorized) {
-          print("Notifications permission not granted");
+          developer.log("Notifications permission not granted");
           return null;
         }
 
         String? apnsToken = await messaging.getAPNSToken();
-        print("iOS APNs Token: $apnsToken");
+        developer.log("iOS APNs Token: $apnsToken");
 
         return apnsToken;
       } else if (Platform.isAndroid) {
         String? fcmToken = await messaging.getToken();
-        print("Android FCM Token: $fcmToken");
+        developer.log("Android FCM Token: $fcmToken");
 
         return fcmToken;
       }
 
       return null;
     } catch (e) {
-      print("Error getting device token: $e");
+      developer.log("Error getting device token: $e");
       return null;
     }
   }
@@ -67,12 +69,12 @@ class DeviceInfoFetcher {
 
       if (token != null) {
         await DevRev.registerDeviceToken(token, deviceId);
-        print("Successfully registered with DevRev");
+        developer.log("Successfully registered with DevRev");
       } else {
-        print("Failed to get Firebase device token");
+        developer.log("Failed to get Firebase device token");
       }
     } catch (error) {
-      print("Error registering device: $error");
+      developer.log("Error registering device: $error");
       rethrow;
     }
   }
@@ -82,9 +84,9 @@ class DeviceInfoFetcher {
     try {
       String deviceId = await getDeviceId();
       DevRev.unregisterDevice(deviceId);
-      print("Device unregistered - ID: $deviceId");
+      developer.log("Device unregistered - ID: $deviceId");
     } catch (error) {
-      print("Error unregistering device: $error");
+      developer.log("Error unregistering device: $error");
       rethrow;
     }
   }
@@ -96,9 +98,9 @@ class DeviceInfoFetcher {
       DevRev.logout(deviceId);
       _deviceId = null;
       await _storage.delete(key: "device_id"); // Clear stored device ID
-      print("Logged out successfully");
+      developer.log("Logged out successfully");
     } catch (error) {
-      print("Error logging out: $error");
+      developer.log("Error logging out: $error");
       rethrow;
     }
   }
