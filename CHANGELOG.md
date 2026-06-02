@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.5] - 2026-06-02
+
+### Added
+- Optional prefilled message support the support chat input field.
+
+### Changed
+- Improved privacy(masking) stabality.
+- Improved iOS Flutter lifecycle handling to prevent crashes when Flutter is unavailable during session replays in hybrid Flutter + native approach.
+
+### Fixed
+- Fixed session recordings associating events with the wrong DevRev's different workspace.
+- [iOS] Fixed crashes from thread-unsafe.
+
+## [2.3.4] - 2026-05-22
+
+### Fixed
+- [Android] Fixed the fractional masking delay during navigation.
+
 ## [2.3.3] - 2026-05-12
 
 ### Fixed
