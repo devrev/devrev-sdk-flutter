@@ -6,11 +6,49 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:devrev_sdk_flutter/devrev.dart';
+import 'package:devrev_sdk_flutter/devrev_monitored_app.dart';
+import 'package:go_router/go_router.dart';
 import 'Features/identification_screen.dart';
+import 'Features/masked_form_screen.dart';
+import 'Features/unmasked_form_screen.dart';
+import 'Features/payment_details_form_screen.dart';
+import 'Features/account_security_form_screen.dart';
 import 'Features/pushnotifications_screen.dart';
+import 'Features/router_navigation_screen.dart';
 import 'Features/session_analytics_screen.dart';
 import 'Features/support_screen.dart';
 import 'Components/status_list_item.dart';
+
+final _router = GoRouter(
+  initialLocation: '/main',
+  observers: [DevRevTransitionTrackingObserver()],
+  routes: [
+    GoRoute(
+      path: '/main',
+      builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
+      path: '/router-navigation',
+      builder: (context, state) => const RouterNavigationScreen(),
+    ),
+    GoRoute(
+      path: '/masked-form/personal',
+      builder: (context, state) => const MaskedFormScreen(),
+    ),
+    GoRoute(
+      path: '/masked-form/contact',
+      builder: (context, state) => const UnmaskedFormScreen(),
+    ),
+    GoRoute(
+      path: '/masked-form/payment',
+      builder: (context, state) => const PaymentDetailsFormScreen(),
+    ),
+    GoRoute(
+      path: '/masked-form/security',
+      builder: (context, state) => const AccountSecurityFormScreen(),
+    ),
+  ],
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,11 +79,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DevRevMonitoredApp(
+    return DevRevMonitoredApp.router(
       title: "DevRev SDK",
       theme: ThemeData(primarySwatch: Colors.blue),
-      initialRoute: "/main",
-      routes: {"/main": (context) => const HomeScreen()},
+      routerConfig: _router,
     );
   }
 }
@@ -147,6 +184,10 @@ class _HomeScreenState extends State<HomeScreen>
         },
         {"title": "Support", "route": const SupportScreen()},
         {"title": "Session Analytics", "route": const SessionAnalyticsScreen()},
+        {
+          "title": "Router Navigation",
+          "routePath": "/router-navigation",
+        },
       ],
       if (Platform.isAndroid)
         "DEBUG": [
@@ -207,6 +248,12 @@ class _HomeScreenState extends State<HomeScreen>
                   );
                 } else if (item["type"] == "animated_text") {
                   return ListTile(title: item["widget"] as Widget);
+                } else if (item.containsKey("routePath")) {
+                  return ListTile(
+                    title: Text(item["title"]),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push(item["routePath"] as String),
+                  );
                 } else {
                   return ListTile(
                     title: Text(item["title"]),
