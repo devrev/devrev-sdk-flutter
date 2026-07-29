@@ -108,7 +108,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
     return MobileScanner(
       controller: _controller,
       onDetect: _onDetect,
-      errorBuilder: (context, error) {
+      errorBuilder: (context, error, child) {
         return Center(
           child: Text(
             "Camera error: ${error.errorCode}",
