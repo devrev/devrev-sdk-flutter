@@ -4,6 +4,63 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.8] - 2026-08-19
+
+### Added
+- [Android] Added correlation headers to DevRev network requests for end-to-end request tracing.
+
+### Changed
+- [Android] Read fresh mask locations on-demand before capture instead of relying only on the per-frame pass, improving mask accuracy during rapid navigations.
+- [Android] Session replay now honors a server-computed recording flag, so recording can be enabled or disabled centrally from the backend.
+- [iOS] Refined network observability to track the SDK's essential API calls while excluding the SDK's own internal API traffic.
+- [iOS] Improved logs traceability.
+
+### Fixed
+- [Android] Fixed masking across multiple Flutter engines/channels by tracking the foreground (active) channel and recording on it.
+- [Android] Moved session-recording keystore decryption off the main thread to reduce startup jank and avoid ANRs.
+
+## [2.3.7] - 2026-07-29
+
+### Added
+- Added an SDK version filter for session replay, allowing replay to be enabled or disabled for specific SDK versions from the dashboard.
+
+### Fixed
+- [Android] Fixed masks on the base page being dropped while a dialog or modal bottom sheet was open.
+- [Android] Fixed a main-thread deadlock when resolving external masks with Flutter.
+- [Android] Fixed a crash in the screenshot capturer caused by a recycled bitmap on cancel.
+- [Android] Fixed an issue with mask coordinate clipping.
+- [iOS] Fixed a race condition that could affect network event counts during concurrent requests.
+
+## [2.3.6] - 2026-06-24
+
+### Changed
+- [iOS] Improved memory usage during offline session replay uploads.
+- Enhanced overall performance during screen navigations.
+
+### Fixed
+- [Android] Fixed an issue related to rapid navigations.
+- [Android] Fixed an ANR related to animated dialog captures.
+- [Android] Fixed an issue related to keyboard scrolls on webviews.
+- [Android] Fixed an issue related to dispatch window callback mutations.
+
+## [2.3.5] - 2026-06-02
+
+### Added
+- Optional prefilled message support the support chat input field.
+
+### Changed
+- Improved privacy(masking) stability.
+- Improved iOS Flutter lifecycle handling to prevent crashes when Flutter is unavailable during session replays in hybrid Flutter + native approach.
+
+### Fixed
+- Fixed session recordings associating events with the wrong DevRev's different workspace.
+- [iOS] Fixed crashes from thread-unsafe.
+
+## [2.3.4] - 2026-05-22
+
+### Fixed
+- [Android] Fixed the fractional masking delay during navigation.
+
 ## [2.3.3] - 2026-05-12
 
 ### Fixed
