@@ -712,10 +712,25 @@ DevRev.processPushNotification(payload);
 
 ##### iOS
 
-On iOS devices, you must pass the received push notification payload to the DevRev SDK for processing. The SDK handles the notification and executes the necessary actions.
+On iOS devices, you must update the `AppDelegate` to intercept notification clicks and forward the payload to the SDK.
 
-```dart
-DevRev.processPushNotification(payload);
+In `didFinishLaunchingWithOptions`, set the `UNUserNotificationCenter` delegate:
+
+```swift
+UNUserNotificationCenter.current().delegate = self
+```
+
+Implement `userNotificationCenter(_:didReceive:)` to pass the notification payload to the SDK:
+
+```swift
+func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    didReceive response: UNNotificationResponse
+) async {
+    await DevRev.processPushNotification(
+        response.notification.request.content.userInfo
+    )
+}
 ```
 
 ## Sample app
