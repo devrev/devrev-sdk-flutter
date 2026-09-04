@@ -4,20 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.3.8] - 2026-08-19
+## [2.3.9] - 2026-09-04
 
 ### Added
-- [Android] Added correlation headers to DevRev network requests for end-to-end request tracing.
+- Added support for UI-based rate limiting.
+
+### Fixed
+- [Android] Fixed a race condition when starting session recording that could cause unstable recording startup.
+
+## [2.3.8] - 2026-08-19
 
 ### Changed
-- [Android] Read fresh mask locations on-demand before capture instead of relying only on the per-frame pass, improving mask accuracy during rapid navigations.
-- [Android] Session replay now honors a server-computed recording flag, so recording can be enabled or disabled centrally from the backend.
+- [Android] Session replay can now be enabled or disabled centrally from the backend.
 - [iOS] Refined network observability to track the SDK's essential API calls while excluding the SDK's own internal API traffic.
 - [iOS] Improved logs traceability.
 
 ### Fixed
-- [Android] Fixed masking across multiple Flutter engines/channels by tracking the foreground (active) channel and recording on it.
-- [Android] Moved session-recording keystore decryption off the main thread to reduce startup jank and avoid ANRs.
+- [Android] Improved masking reliability in apps that run multiple Flutter engines.
+- [Android] Reduced startup jank and ANRs during session recording.
+- [Android] Improved session recording and upload stability.
 
 ## [2.3.7] - 2026-07-29
 
