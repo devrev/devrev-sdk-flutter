@@ -13,6 +13,9 @@
 migrate_working_dir/
 *.lock
 
+# Release archives are attached to GitHub Releases as assets, not committed.
+*.zip
+
 # IntelliJ related
 *.iml
 *.ipr
@@ -29,6 +32,8 @@ migrate_working_dir/
 /pubspec.lock
 **/doc/api/
 .dart_tool/
+# Dart telemetry dir created when the release lane runs with HOME=$PWD.
+.dart-tool/
 .flutter-plugins
 .flutter-plugins-dependencies
 build/
