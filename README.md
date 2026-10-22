@@ -439,6 +439,9 @@ For example:
 DevRev.trackEvent("open-message-screen", {"id": "message-1337"});
 ```
 
+> [!NOTE]
+> Event names must match the regular expression `^[a-zA-Z0-9_-]+$` — use only letters, digits, underscores, and hyphens. Names containing other characters are rejected. Keep event names and properties small: large payloads bloat the device's local memory and can lead to missed recordings.
+
 ### Session analytics
 The DevRev SDK offers session analytics features to help you understand how users interact with your app.
 
@@ -486,21 +489,21 @@ DevRev.clearSessionProperties();
 
 #### Mask sensitive data
 
-To protect sensitive data, you can mask sensitive UI elements such as text fields, text views using the `DevRevMask` widget.
+Text fields are masked automatically, so you do not need to wrap them. This covers `TextField`, `TextFormField`, `CupertinoTextField`, and `SelectableText`.
+
+Other elements, such as labels and buttons, are not. Use the `DevRevMask` widget for those.
 
 For example:
 
 ```dart
 DevRevMask(
-	child: TextField(
-		decoration: InputDecoration(labelText: "foo-bar"),
-	)
+	child: Text("Account balance: $1,234.56"),
 )
 ```
 
 #### Unmask sensitive data
 
-If any previously masked views need to be unmasked, you can unmask using the `DevRevUnmask` widget.
+If any previously masked views need to be unmasked, you can unmask using the `DevRevUnmask` widget. This also works on text fields masked automatically.
 
 For example:
 

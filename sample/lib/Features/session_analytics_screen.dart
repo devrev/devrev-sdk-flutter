@@ -78,6 +78,51 @@ class SessionAnalyticsState extends State<SessionAnalyticsScreen> {
           },
         },
       ],
+      "Feature Configuration": [
+        {
+          "title": "Disable Frame Capture",
+          "action": () {
+            DevRev.updateFeatureConfiguration(
+              const FeatureConfiguration(
+                enableFrameCapture: false,
+                autoStartRecording: true,
+                alwaysUseRemoteConfig: true,
+                prefersDialogMode: false,
+                supportWidgetTheme: SupportWidgetTheme.systemDefault,
+              ),
+            );
+            AlertDialogHelper.showAlertDialog(
+              context,
+              "Configuration Updated",
+              "Frame capture is now disabled.",
+            );
+          },
+        },
+        {
+          "title": "Update Support Widget Theme",
+          "action": () {
+            DevRev.updateFeatureConfiguration(
+              const FeatureConfiguration(
+                enableFrameCapture: true,
+                autoStartRecording: true,
+                alwaysUseRemoteConfig: true,
+                prefersDialogMode: false,
+                supportWidgetTheme: SupportWidgetTheme(
+                  prefersSystemTheme: false,
+                  primaryTextColor: "#1F2933",
+                  accentColor: "#F97316",
+                  spacing: {"bottom": "20px", "side": "16px"},
+                ),
+              ),
+            );
+            AlertDialogHelper.showAlertDialog(
+              context,
+              "Configuration Updated",
+              "Support widget theme updated with custom values.",
+            );
+          },
+        },
+      ],
       "Session Recording": [
         {
           "title": "Start Recording",
@@ -222,6 +267,24 @@ class SessionAnalyticsState extends State<SessionAnalyticsScreen> {
           "action": () {
             DevRev.endTimer("sample-timer", {'action': 'end'});
             AlertDialogHelper.showAlertDialog(context, "Timer", "Timer ended.");
+          },
+        },
+      ],
+      "Error Capture": [
+        {
+          "type": "error_capture",
+          "title": "Capture Error",
+          "action": () {
+            try {
+              throw Exception("Custom Error Message");
+            } catch (e) {
+              DevRev.captureError(e, "DEVREV SAMPLE APP");
+            }
+            AlertDialogHelper.showAlertDialog(
+              context,
+              "Error Captured",
+              "An error was captured using captureError.",
+            );
           },
         },
       ],
@@ -371,6 +434,15 @@ class SessionAnalyticsState extends State<SessionAnalyticsScreen> {
                           ? Icons.check_circle
                           : Icons.circle_outlined,
                     ),
+                  );
+                } else if (item["type"] == "error_capture") {
+                  return ListTile(
+                    title: Text(item["title"]),
+                    trailing: const Icon(
+                      Icons.warning_amber_rounded,
+                      color: Colors.amber,
+                    ),
+                    onTap: () => item["action"](),
                   );
                 } else if (item["type"] == "masked_text" ||
                     item["type"] == "input") {
