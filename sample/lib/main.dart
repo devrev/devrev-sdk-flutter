@@ -143,7 +143,16 @@ class _HomeScreenState extends State<HomeScreen>
 
   Future<void> initPlatformState() async {
     try {
-      DevRev.configure(AppConstants.appID);
+      DevRev.configure(
+        AppConstants.appID,
+        const FeatureConfiguration(
+          enableFrameCapture: true,
+          autoStartRecording: true,
+          alwaysUseRemoteConfig: false,
+          prefersDialogMode: false,
+          supportWidgetTheme: SupportWidgetTheme.systemDefault,
+        ),
+      );
       isConfigured = (await DevRev.isConfigured)!;
       isUserIdentified = (await DevRev.isUserIdentified)!;
       isMonitoringEnabled = (await DevRev.isMonitoring)!;
