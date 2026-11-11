@@ -439,6 +439,9 @@ For example:
 DevRev.trackEvent("open-message-screen", {"id": "message-1337"});
 ```
 
+> [!NOTE]
+> Event names must match the regular expression `^[a-zA-Z0-9_-]+$` — use only letters, digits, underscores, and hyphens. Names containing other characters are rejected. Keep event names and properties small: large payloads bloat the device's local memory and can lead to missed recordings.
+
 ### Session analytics
 The DevRev SDK offers session analytics features to help you understand how users interact with your app.
 
@@ -466,6 +469,7 @@ The session recording feature includes the following methods to control the reco
 |--------------------------------------------------------------------|-----------------------------------------------------------|
 |`DevRev.startRecording()`   | Starts the session recording.                             |
 |`DevRev.stopRecording()`    | Ends the session recording and uploads it to the portal. |
+|`DevRev.abortRecording(autoStartOnNextForeground: false)`   | Ends the session recording and discards it without uploading. With `autoStartOnNextForeground: true`, recording starts again the next time the app returns to the foreground. |
 |`DevRev.pauseRecording()`   | Pauses the ongoing session recording.                     |
 |`DevRev.resumeRecording()`  | Resumes a paused session recording.                       |
 |`DevRev.processAllOnDemandSessions()` | Stops the ongoing session recording and uploads all offline sessions on demand, including the current one. |
@@ -486,21 +490,21 @@ DevRev.clearSessionProperties();
 
 #### Mask sensitive data
 
-To protect sensitive data, you can mask sensitive UI elements such as text fields, text views using the `DevRevMask` widget.
+Text fields are masked automatically, so you do not need to wrap them. This covers `TextField`, `TextFormField`, `CupertinoTextField`, and `SelectableText`.
+
+Other elements, such as labels and buttons, are not. Use the `DevRevMask` widget for those.
 
 For example:
 
 ```dart
 DevRevMask(
-	child: TextField(
-		decoration: InputDecoration(labelText: "foo-bar"),
-	)
+	child: Text("Account balance: $1,234.56"),
 )
 ```
 
 #### Unmask sensitive data
 
-If any previously masked views need to be unmasked, you can unmask using the `DevRevUnmask` widget.
+If any previously masked views need to be unmasked, you can unmask using the `DevRevUnmask` widget. This also works on text fields masked automatically.
 
 For example:
 
